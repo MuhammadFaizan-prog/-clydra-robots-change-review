@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviewer · Clydara Robots Change Review</title>
+    <meta name="description" content="Compare a live and a proposed robots.txt across your paths and the main search and AI crawlers." />
+    <link rel="icon" type="image/png" href="/clydara-logo.png" />
+  </head>
+  <body class="tool">
+    <a class="skip" href="#results">Skip to results</a>
+    <header class="bar">
+      <a class="brand" href="/" aria-label="Robots Change Review home">
+        <svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="4" width="16" height="22" rx="2" fill="none" stroke="#0f2723" stroke-width="2"/><rect x="12" y="2" width="16" height="22" rx="2" fill="#0f5c4c"/><path d="M16 9h8M16 13h5M16 17h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Robots Change Review<small>Reviewer</small></span>
+      </a>
+      <nav aria-label="Workspace">
+        <button class="btn ghost small" type="button" id="load-example">Load the shop example</button>
+        <button class="btn ghost small" type="button" id="clear-all">Clear all</button>
+        <a href="/#how">How matching works</a>
+        <a class="byline" href="https://www.clydralab.com/" rel="noopener"><img src="/clydara-logo.png" alt="" width="22" height="22" /><span>Built by Clydara</span></a>
+      </nav>
+    </header>
+
+    <main class="ws">
+      <section class="inputs" aria-label="Inputs">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>1 · robots.txt files</h2>
+            <span class="hint">Linted as you type</span>
+          </div>
+          <div class="tabs" role="tablist" aria-label="robots.txt version">
+            <button role="tab" id="tab-current" aria-controls="pane-current" aria-selected="true" type="button">Current <span class="tab-meta" id="meta-current">empty</span></button>
+            <button role="tab" id="tab-proposed" aria-controls="pane-proposed" aria-selected="false" tabindex="-1" type="button">Proposed <span class="tab-meta" id="meta-proposed">empty</span></button>
+          </div>
+          <div role="tabpanel" id="pane-current" aria-labelledby="tab-current">
+            <label class="sr-only" for="current">Current robots.txt (live today)</label>
+            <textarea id="current" class="code" wrap="off" spellcheck="false" autocomplete="off" rows="12" placeholder="Paste the robots.txt that is live today.&#10;Leave empty if the site has no robots.txt.&#10;&#10;User-agent: *&#10;Disallow: /cart" aria-describedby="issues-current"></textarea>
+            <ul class="issues" id="issues-current" aria-label="Issues in the current file"></ul>
+          </div>
+          <div role="tabpanel" id="pane-proposed" aria-labelledby="tab-proposed" hidden>
+            <label class="sr-only" for="proposed">Proposed robots.txt</label>
+            <textarea id="proposed" class="code" wrap="off" spellcheck="false" autocomplete="off" rows="12" placeholder="Paste your edited robots.txt.&#10;&#10;User-agent: GPTBot&#10;Disallow: /" aria-describedby="issues-proposed"></textarea>
+            <ul class="issues" id="issues-proposed" aria-label="Issues in the proposed file"></ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2><label for="paths">2 · Paths to check</label></h2>
+            <span class="hint" id="paths-status">One per line</span>
+          </div>
+          <textarea id="paths" class="code" wrap="off" spellcheck="false" autocomplete="off" rows="7" placeholder="/&#10;/products/linen-shirt&#10;https://example.com/blog/post?ref=x" aria-describedby="paths-status paths-errors"></textarea>
+          <ul class="issues" id="paths-errors" aria-label="Path problems"></ul>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2 id="crawlers-h">3 · Crawlers</h2>
+            <span class="hint" id="crawler-count"></span>
+          </div>
+          <div id="crawler-groups" aria-labelledby="crawlers-h"></div>
+          <form class="custom" id="custom-form" novalidate>
+            <label for="custom-token">Add a product token</label>
+            <div class="custom-row">
+              <input id="custom-token" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. YandexBot" aria-describedby="custom-error" />
+              <button class="btn ghost small" type="submit">Add</button>
+            </div>
+            <p class="field-error" id="custom-error" role="alert"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="results" id="results" aria-label="Review" tabindex="-1">
+        <div class="results-head">
+          <div class="summary" id="summary" aria-live="polite"></div>
+          <div class="controls">
+            <div class="seg" role="radiogroup" aria-label="Rows to show">
+              <label><input type="radio" name="rows" value="changes" checked /> <span>Changed rows</span></label>
+              <label><input type="radio" name="rows" value="all" /> <span>All rows</span></label>
+            </div>
+            <div class="exports">
+              <button class="btn small" type="button" id="copy-md" disabled>Copy PR summary</button>
+              <button class="btn ghost small" type="button" id="download-csv" disabled>Download CSV</button>
+            </div>
+          </div>
+          <p class="toast" id="toast" role="status" aria-live="polite"></p>
+        </div>
+        <div id="state" class="state"></div>
+        <div class="mx-wrap" id="matrix" hidden></div>
+        <p class="rows-note" id="rows-note"></p>
+        <aside class="inspector" id="inspector" aria-live="polite" aria-label="Selected combination"></aside>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Everything runs in this tab. Nothing you paste is uploaded or stored.</span>
+      <a class="byline" href="https://www.clydralab.com/" rel="noopener"><img src="/clydara-logo.png" alt="" width="22" height="22" /><span>Built by Clydara</span></a>
+    </footer>
+    <script type="module" src="/src/tool.ts"></script>
+  </body>
+</html>
