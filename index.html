@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clydara Robots Change Review: see who loses access before a robots.txt change ships</title>
+    <meta name="description" content="Compare your live robots.txt with a proposed edit across real paths and every major search and AI crawler. See each newly blocked page, the line that decides it, and export a review for your pull request. Runs in your browser." />
+    <link rel="icon" type="image/png" href="/clydara-logo.png" />
+  </head>
+  <body class="landing">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="bar">
+      <a class="brand" href="/" aria-label="Robots Change Review home">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="4" width="16" height="22" rx="2" fill="none" stroke="#0f2723" stroke-width="2"/><rect x="12" y="2" width="16" height="22" rx="2" fill="#0f5c4c"/><path d="M16 9h8M16 13h5M16 17h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Robots Change Review<small>by Clydara</small></span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="#result">What you get</a>
+        <a href="#how">How it works</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn small" href="/tool.html">Open the reviewer</a>
+        <a class="byline" href="https://www.clydralab.com/" rel="noopener"><img src="/clydara-logo.png" alt="" width="22" height="22" /><span>Built by Clydara</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="kicker">robots.txt pull request review</p>
+          <h1>See which crawlers lose access <em>before</em> your robots.txt change ships.</h1>
+          <p class="lede">For SEO leads and developers reviewing a robots.txt edit. Paste the live file and the proposed one, list the paths that matter, and get a before-and-after verdict for Googlebot, Bingbot and the main AI crawlers, with the exact line that decides each one.</p>
+          <div class="cta">
+            <a class="btn" href="/tool.html">Open the reviewer</a>
+            <a class="btn ghost" href="/tool.html#example">Run the shop example</a>
+          </div>
+          <p class="fine">Runs entirely in your browser. Nothing you paste is uploaded.</p>
+        </div>
+        <figure class="hero-preview" aria-labelledby="preview-cap">
+          <figcaption id="preview-cap"><span class="tag">Sample output</span> A fictional shop blocks AI training crawlers and hides internal search. Real result from the tool's matcher.</figcaption>
+          <div class="preview-summary" id="preview-summary"></div>
+          <div class="mx-wrap" id="preview-matrix"></div>
+        </figure>
+      </section>
+
+      <section class="band" id="result" aria-labelledby="result-h">
+        <div class="band-head">
+          <h2 id="result-h">What the review shows you</h2>
+          <p>Three things from that sample that a line-by-line diff of the file would not tell you.</p>
+        </div>
+        <ol class="notes" id="notes">
+          <li>
+            <h3>A prefix rule that catches more than intended</h3>
+            <p id="note-prefix">Rules match from the start of the path, so <code>Disallow: /search</code> also blocks <code>/searchlight-collection</code>, a product category, for every search engine.</p>
+          </li>
+          <li>
+            <h3>A cleanup that quietly opens pages</h3>
+            <p id="note-sort">Dropping <code>Disallow: /*?sort=</code> makes sorted collection URLs crawlable again. The cell turns green and names the rule that used to block it.</p>
+          </li>
+          <li>
+            <h3>Search stays open while training closes</h3>
+            <p id="note-ai">GPTBot and ClaudeBot lose everything, while OAI-SearchBot and PerplexityBot keep the same access, because a named group replaces the <code>*</code> group only for the crawlers it names.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="band split" id="how" aria-labelledby="how-h">
+        <div>
+          <h2 id="how-h">How it works</h2>
+          <p class="sub">The matcher follows <a href="https://www.rfc-editor.org/rfc/rfc9309.html" rel="noopener">RFC 9309</a>, the robots.txt standard, and Google's documented reading of it.</p>
+        </div>
+        <dl class="steps">
+          <div><dt>Paste both versions</dt><dd>The file live today and your edit. Leave the current file empty if the site has none. Each file is linted as you type: misspelled fields, rules outside a group, paths without a leading slash, sitemap lines that are not full URLs.</dd></div>
+          <div><dt>List the paths that matter</dt><dd>Paste paths or full URLs, one per line: top landing pages, a sample from your sitemap, anything a stakeholder asked about. Pick crawlers by purpose: search, AI training, AI search, user-triggered AI, or add your own token.</dd></div>
+          <div><dt>Review the changed cells</dt><dd>Each cell compares before and after. Select one to see which group applied and which line decided it in each file. The <em>longest matching rule wins</em>; when an Allow and a Disallow are equally long, Allow wins.</dd></div>
+          <div><dt>Export for the pull request</dt><dd>Copy a Markdown summary of every change for the PR description, or download the full matrix as CSV.</dd></div>
+        </dl>
+      </section>
+
+      <section class="band" aria-labelledby="uses-h">
+        <div class="band-head"><h2 id="uses-h">Where it helps</h2></div>
+        <div class="uses">
+          <article>
+            <h3>Opting out of AI training, not AI search</h3>
+            <p><b>Input:</b> a draft adding groups for GPTBot, ClaudeBot and Google-Extended.</p>
+            <p><b>Result:</b> which AI products still reach your pages, crawler by crawler.</p>
+            <p><b>Still your call:</b> whether being cited in AI answers is worth the crawl.</p>
+          </article>
+          <article>
+            <h3>Cleaning up after a migration</h3>
+            <p><b>Input:</b> years of legacy Disallow lines and the trimmed version.</p>
+            <p><b>Result:</b> every URL that becomes crawlable again, with the rule that used to block it.</p>
+            <p><b>Still your call:</b> whether those pages deserve crawl budget, or need noindex instead.</p>
+          </article>
+          <article>
+            <h3>Checking a CMS or plugin update</h3>
+            <p><b>Input:</b> the robots.txt your platform generated before and after an update.</p>
+            <p><b>Result:</b> a plain list of what the update changed for crawlers.</p>
+            <p><b>Still your call:</b> whether to override the generated file.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="band split" aria-labelledby="limits-h">
+        <div><h2 id="limits-h">Privacy and limits</h2></div>
+        <ul class="limits">
+          <li><b>Local only.</b> Parsing and matching run in this page. The production build ships a Content-Security-Policy that forbids network requests, so pasted files cannot leave your browser.</li>
+          <li><b>Paste, don't fetch.</b> Browsers cannot read another site's robots.txt directly, so the tool asks you to paste it. Open <code>/robots.txt</code> on your site and copy it.</li>
+          <li><b>A request, not a lock.</b> robots.txt asks crawlers to stay out. It does not stop a crawler that ignores it, and it does not remove pages that are already indexed.</li>
+          <li><b>Your paths only.</b> The review covers the paths you list. A path you leave out is not checked.</li>
+          <li><b>Interpretation.</b> Verdicts follow RFC 9309 and Google's rules. Some crawlers parse differently, and firewall or CDN bot rules are invisible to robots.txt.</li>
+        </ul>
+      </section>
+
+      <section class="band" id="faq" aria-labelledby="faq-h">
+        <div class="band-head"><h2 id="faq-h">Questions</h2></div>
+        <div class="faq">
+          <details><summary>Which crawlers are included?</summary><p>Googlebot, Googlebot-Image, Bingbot, DuckDuckBot, Applebot, Google-Extended, Applebot-Extended, GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User, CCBot, Bytespider, Meta-ExternalAgent and Amazonbot, each linked to its operator's documentation where one exists. You can add any other product token.</p></details>
+          <details><summary>Why does Googlebot-Image follow my Googlebot rules?</summary><p>Google's crawlers use the most specific group that names them. Googlebot-Image looks for its own group first, then the Googlebot group, then <code>*</code>.</p></details>
+          <details><summary>Does blocking Google-Extended remove me from Google Search?</summary><p>No. Google-Extended is a control token, not a crawler. Google documents that it does not affect inclusion or ranking in Google Search.</p></details>
+          <details><summary>Will user-triggered AI agents respect these rules?</summary><p>Not reliably. OpenAI says robots.txt rules may not apply to ChatGPT-User, and Perplexity says Perplexity-User generally ignores them. The matrix shows what the file asks, and the inspector notes these cases.</p></details>
+          <details><summary>What can I export?</summary><p>A Markdown change summary for a pull request, and a CSV with one row per path and crawler: both verdicts, the deciding lines and the change type.</p></details>
+        </div>
+      </section>
+
+      <section class="closing">
+        <h2>Review your next robots.txt change in a minute.</h2>
+        <a class="btn" href="/tool.html">Open the reviewer</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Clydara Robots Change Review. Free to use; no account.</span>
+      <a class="byline" href="https://www.clydralab.com/" rel="noopener"><img src="/clydara-logo.png" alt="" width="22" height="22" /><span>Built by Clydara</span></a>
+    </footer>
+    <script type="module" src="/src/landing.ts"></script>
+  </body>
+</html>
