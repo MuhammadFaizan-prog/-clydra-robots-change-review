@@ -1,0 +1,41 @@
+.mx-wrap { position: relative; overflow: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--sheet); max-width: 100%; }
+.mx { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 13px; }
+.mx th, .mx td { border-bottom: 1px solid var(--line); padding: 0; }
+.mx thead th {
+  position: sticky; top: 0; z-index: 2; background: var(--sheet);
+  text-align: left; vertical-align: bottom; padding: 10px 10px 8px; font-weight: 600; border-bottom: 1px solid var(--line-2);
+  min-width: 104px;
+}
+.mx thead .mx-corner { left: 0; z-index: 3; font: 600 11px/1 var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.mx-bot { display: block; color: var(--ink); font-size: 13px; }
+.mx-purpose { display: block; color: var(--muted); font-weight: 500; font-size: 11px; margin-top: 2px; }
+.mx-lost { display: inline-block; margin-top: 5px; font: 700 11px/1 var(--mono); color: var(--blocked); background: var(--blocked-soft); padding: 3px 5px; border-radius: 3px; }
+.mx tbody th {
+  position: sticky; left: 0; z-index: 1; background: var(--sheet);
+  text-align: left; font-weight: 400; padding: 9px 12px; white-space: nowrap; border-right: 1px solid var(--line);
+  max-width: 260px; overflow: hidden; text-overflow: ellipsis;
+}
+.mx tbody th code { font-size: 12.5px; color: var(--ink); }
+.mx-cell { position: relative; padding: 7px 10px !important; vertical-align: middle; }
+.mx-cell[role="button"] { cursor: pointer; }
+.mx-cell[role="button"]:hover { box-shadow: inset 0 0 0 2px var(--line-2); }
+.mx-cell.is-selected { box-shadow: inset 0 0 0 2px var(--ink) !important; }
+.mx-same { font: 700 14px/1 var(--mono); opacity: 0.55; }
+.mx-same.allowed { color: var(--allowed); }
+.mx-same.blocked { color: var(--blocked); }
+.mx-cell.newly-blocked { background: var(--blocked-soft); }
+.mx-cell.newly-allowed { background: var(--allowed-soft); }
+.mx-cell.rule-changed { background: var(--moved-soft); }
+.mx-flow { display: inline-flex; align-items: center; gap: 3px; font: 700 13px/1 var(--mono); }
+.mx-flow b { color: var(--muted); font-weight: 400; }
+.mx-flow i { font-style: normal; }
+.mx-flow i.allowed { color: var(--allowed); }
+.mx-flow i.blocked { color: var(--blocked); }
+.mx-label { display: block; font-size: 11px; font-weight: 600; margin-top: 3px; white-space: nowrap; }
+.newly-blocked .mx-label { color: var(--blocked); }
+.newly-allowed .mx-label { color: var(--allowed); }
+.rule-changed .mx-label { color: var(--moved); }
+@media (max-width: 560px) {
+  .mx tbody th { max-width: 44vw; }
+  .mx thead th { min-width: 92px; }
+}
